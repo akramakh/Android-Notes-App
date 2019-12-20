@@ -1,4 +1,4 @@
-package com.akram_akh.notes;
+package com.akram_akh.notes.Auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.akram_akh.notes.MainActivity;
+import com.akram_akh.notes.OnboardingScreenActivity;
+import com.akram_akh.notes.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -92,6 +95,11 @@ public class SignInActivity extends AppCompatActivity {
     }
     public void goToREsetPassword(View view) {
         startActivity(new Intent(SignInActivity.this, ForgetPasswordActivity.class));
+        finish();
+    }
+
+    public void goToOnboarding(View view) {
+        startActivity(new Intent(SignInActivity.this, OnboardingScreenActivity.class));
         finish();
     }
 }

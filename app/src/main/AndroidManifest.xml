@@ -11,17 +11,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ForgetPasswordActivity"></activity>
-        <activity android:name=".ConfirmingEmailActivity" />
-        <activity android:name=".SignInActivity" />
-        <activity android:name=".SignUpActivity">
+        <activity android:name=".NoteDetailActivity"></activity>
+        <activity android:name=".CategoriesListActivity" />
+        <activity android:name=".NotesListActivity" />
+        <activity android:name=".EditNoteActivity" />
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TestActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".OnboardingScreenActivity" />
+        <activity android:name=".Auth.ForgetPasswordActivity" />
+        <activity android:name=".Auth.ConfirmingEmailActivity" />
+        <activity android:name=".Auth.SignInActivity" />
+        <activity android:name=".Auth.SignUpActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
         <activity android:name=".CategoryActivity" />
     </application>
 

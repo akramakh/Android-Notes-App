@@ -3,6 +3,7 @@ package com.akram_akh.notes;
 public class Category {
     String id;
     String title;
+    int image;
     String slug;
     String user_id;
     long created_at;
@@ -11,9 +12,10 @@ public class Category {
     public Category() {
     }
 
-    public Category(String id, String title, String slug, String user_id, long created_at, long updated_at) {
+    public Category(String id, String title, String slug, int image, String user_id, long created_at, long updated_at) {
         this.id = id;
         this.title = title;
+        this.image = image;
         this.slug = slug;
         this.user_id = user_id;
         this.created_at = created_at;
@@ -50,6 +52,14 @@ public class Category {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 
     public long getCreated_at() {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpActivity">
+    tools:context=".Auth.SignUpActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/close_btn" />
+            app:srcCompat="@drawable/close_btn"
+            android:onClick="goToOnboarding"/>
 
         <TextView
             android:id="@+id/go_to_signin_btn"

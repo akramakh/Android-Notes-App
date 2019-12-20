@@ -1,4 +1,4 @@
-package com.akram_akh.notes;
+package com.akram_akh.notes.Auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,10 +13,18 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.akram_akh.notes.MainActivity;
+import com.akram_akh.notes.OnboardingScreenActivity;
+import com.akram_akh.notes.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Date;
+import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -26,11 +34,14 @@ public class SignUpActivity extends AppCompatActivity {
 
     FirebaseAuth f_auth;
     Activity current_user = null;
+    DatabaseReference users_database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        users_database = FirebaseDatabase.getInstance().getReference("users");
 
         email_ET = findViewById(R.id.signup_email_ET);
         password_ET = findViewById(R.id.signup_password_ET);
@@ -50,6 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 String email = email_ET.getText().toString().trim();
                 String password = password_ET.getText().toString();
+
 
                 if(TextUtils.isEmpty(email)){
                     email_ET.setError("Enter a valid Email address");
@@ -71,6 +83,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if(task.isSuccessful()){
                                         progress_bar.setVisibility(View.INVISIBLE);
+                                        addUser(f_auth.getCurrentUser().getUid(),f_auth.getCurrentUser().getEmail());
                                         f_auth.signOut();
                                         startActivity(new Intent(SignUpActivity.this, ConfirmingEmailActivity.class));
                                     }
@@ -94,8 +107,30 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    private void addUser(String id, String email){
+        long created_at = new Date().getTime();
+        long updated_at = new Date().getTime();
+        long last_login = new Date().getTime();
+
+        HashMap<String, Object> data = new HashMap<>();
+
+        data.put("id",id);
+        data.put("email",email);
+        data.put("created_at",created_at);
+        data.put("updated_at",updated_at);
+        data.put("last_login",last_login);
+
+        users_database.child(id).setValue(data);
+
+    }
+
     public void goToSignIn(View view) {
         startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
+        finish();
+    }
+
+    public void goToOnboarding(View view) {
+        startActivity(new Intent(SignUpActivity.this, OnboardingScreenActivity.class));
         finish();
     }
 
