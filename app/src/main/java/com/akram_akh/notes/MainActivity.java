@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.akram_akh.notes.Adapter.CategoryAdapter;
-import com.akram_akh.notes.Adapter.MainAdapter;
-import com.akram_akh.notes.Adapter.NoteAdapter;
 import com.akram_akh.notes.Auth.SignInActivity;
 import com.akram_akh.notes.Auth.SignUpActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -94,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         main_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EditNoteActivity.class);
+                Intent intent = new Intent(MainActivity.this, NoteCreateActivity.class);
                 startActivity(intent);
             }
         });

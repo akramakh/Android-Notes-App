@@ -14,12 +14,7 @@
         <activity android:name=".NoteDetailActivity"></activity>
         <activity android:name=".CategoriesListActivity" />
         <activity android:name=".NotesListActivity" />
-        <activity android:name=".EditNoteActivity" />
-        <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TestActivity" />
+        <activity android:name=".NoteCreateActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".OnboardingScreenActivity" />
         <activity android:name=".Auth.ForgetPasswordActivity" />
