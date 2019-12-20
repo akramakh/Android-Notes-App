@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NoteDetailActivity">
+    <LinearLayout
+        android:id="@+id/note_detail_page_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/note_header_actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/note_detail_close_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                android:src="@drawable/back_btn" />
+
+            <ImageView
+                android:id="@+id/note_detail_color_chooser_btn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/color_picker"
+                android:layout_centerVertical="true"
+                android:layout_margin="8dp"
+                android:layout_alignParentEnd="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/note_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/edit_top_left_color_btn"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:background="@color/colorWhite"
+                android:text=""
+                android:layout_centerVertical="true"
+                android:layout_margin="16dp"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="8dp"
+                android:text="March 20 , 2018 15:35"
+                android:textSize="13sp"
+                android:textColor="@color/colorBlack"
+                android:layout_toEndOf="@+id/edit_top_left_color_btn"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/note_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/note_detail_category_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Notes App Design"
+                android:textSize="22sp"
+                android:textColor="@color/colorBlack"
+                android:spinnerMode="dropdown"
+
+                android:layout_centerVertical="true"
+                android:layout_margin="16dp"
+                android:layout_alignParentStart="true"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/note_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:id="@+id/note_detail_title_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:hint="Note title"
+                android:text="@string/common_google_play_services_notification_channel_name"
+                android:textColor="@color/colorBlack"
+                android:textSize="22sp"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/note_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:id="@+id/note_detail_description_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:hint="Note description"
+                android:maxHeight="280dp"
+                android:minHeight="100dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:visibility="visible" />
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/note_detail_save_btn"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:background="@drawable/btn_rounded_3x_primary"
+        android:clickable="true"
+        android:text="Save"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:layout_marginBottom="32dp"
+        app:layout_dodgeInsetEdges="bottom"
+        />
+
+    <FrameLayout
+        android:id="@+id/color_chooser_botton_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="255dp"
+        android:background="@color/colorWhite"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="0dp"
+        app:layout_insetEdge="bottom"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/note_detail_color_1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0"
+                    android:layout_margin="8dp"
+                    app:srcCompat="@drawable/oval_1" />
+
+                <ImageView
+                    android:id="@+id/note_detail_color_2"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0"
+                    android:layout_margin="8dp"
+                    app:srcCompat="@drawable/oval_2" />
+
+                <ImageView
+                    android:id="@+id/note_detail_color_3"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0"
+                    android:layout_margin="8dp"
+                    app:srcCompat="@drawable/oval_3" />
+
+                <ImageView
+                    android:id="@+id/note_detail_color_4"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0"
+                    android:layout_margin="8dp"
+                    app:srcCompat="@drawable/oval_4" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/note_detail_color_5"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0"
+                    android:layout_margin="8dp"
+                    app:srcCompat="@drawable/oval_5" />
+
+                <ImageView
+                    android:id="@+id/note_detail_color_6"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0"
+                    android:layout_margin="8dp"
+                    app:srcCompat="@drawable/oval_6" />
+
+                <ImageView
+                    android:id="@+id/note_detail_color_7"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0"
+                    android:layout_margin="8dp"
+                    app:srcCompat="@drawable/oval_7" />
+
+                <ImageView
+                    android:id="@+id/note_detail_color_8"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0"
+                    android:layout_margin="8dp"
+                    app:srcCompat="@drawable/oval_8" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/note_detail_color_9"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0"
+                    android:layout_margin="8dp"
+                    app:srcCompat="@drawable/oval_9" />
+
+                <ImageView
+                    android:id="@+id/note_detail_color_10"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0"
+                    android:layout_margin="8dp"
+                    app:srcCompat="@drawable/oval_10" />
+
+                <ImageView
+                    android:id="@+id/note_detail_color_11"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0"
+                    android:layout_margin="8dp"
+                    app:srcCompat="@drawable/oval_11" />
+
+                <ImageView
+                    android:id="@+id/note_detail_color_12"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="0"
+                    android:layout_margin="8dp"
+                    app:srcCompat="@drawable/oval_12" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </FrameLayout>
+
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

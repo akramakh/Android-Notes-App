@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/onboarding_img"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/onboarding_bg_1" />
+
+        <TextView
+            android:id="@+id/onboarding_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="42dp"
+            android:text="Notebooks"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="26sp"
+            android:layout_below="@id/onboarding_img"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/onboarding_description"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="80dp"
+            android:layout_marginTop="8dp"
+            android:text="Notebooks are the best place to manage your Notes "
+            android:textAlignment="center"
+            android:textColor="@color/colorLightGray"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/onboarding_control"
+            android:layout_below="@id/onboarding_header"
+            android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
