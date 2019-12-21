@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class NoteDetailActivity extends AppCompatActivity {
     ImageView color_chooser_btn, close_btn;
     boolean show = false;
 
+    ProgressBar note_detail_pb;
     LinearLayout main_container;
     Button save_btn;
     TextView title_tv, description_tv;
@@ -104,6 +106,7 @@ public class NoteDetailActivity extends AppCompatActivity {
         save_btn = findViewById(R.id.note_detail_save_btn);
         cat_list_spinner = findViewById(R.id.note_detail_category_spinner);
 
+        note_detail_pb = findViewById(R.id.note_detail_pb);
 
         single_note_database = notes_database.child(category_id).child(key);
 
@@ -123,6 +126,8 @@ public class NoteDetailActivity extends AppCompatActivity {
                 description_et.setText(item.getDescription());
                 changeBackground(item.getColor());
                 color = item.getColor();
+
+                note_detail_pb.setVisibility(View.GONE);
 
             }
 

@@ -138,6 +138,12 @@
                 android:textSize="16sp"
                 android:visibility="visible" />
         </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/note_detail_pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"/>
     </LinearLayout>
 
 

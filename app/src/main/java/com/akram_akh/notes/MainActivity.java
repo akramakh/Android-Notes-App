@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.akram_akh.notes.Adapter.CategoryAdapter;
@@ -27,6 +28,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     FloatingActionButton main_fab;
+    ProgressBar main_pb;
+    boolean notes_loaded = false, categories_loaded = false;
 
     FirebaseAuth f_auth;
 
@@ -47,29 +50,29 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         categories_database = FirebaseDatabase.getInstance().getReference("categories");
-        categories_database.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                cat_list.clear();
-                Category add_cat_btn = new Category("add_cat_id", "Create Notebook", "create-notebook", R.drawable.add_notebook_img,"user_id", new Date().getTime(),new Date().getTime());
-                cat_list.add(add_cat_btn);
-                for (DataSnapshot user: dataSnapshot.getChildren()) {
-                    for (DataSnapshot category : user.getChildren()) {
-                        System.out.println(category.getValue());
-                        Category cat = category.getValue(Category.class);
-                        cat_list.add(cat);
-                    }
-                }
-                cat_adapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
+//        categories_database.addValueEventListener(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                cat_list.clear();
+//                Category add_cat_btn = new Category("add_cat_id", "Create Notebook", "create-notebook", R.drawable.add_notebook_img,"user_id", new Date().getTime(),new Date().getTime());
+//                cat_list.add(add_cat_btn);
+//                for (DataSnapshot user: dataSnapshot.getChildren()) {
+//                    for (DataSnapshot category : user.getChildren()) {
+//                        System.out.println(category.getValue());
+//                        Category cat = category.getValue(Category.class);
+//                        cat_list.add(cat);
+//                    }
+//                }
+//                cat_adapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                System.out.println("The read failed: " + databaseError.getCode());
+//            }
+//        });
 
 
     }
@@ -86,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, SignInActivity.class));
             finish();
         }
-
+        main_pb = findViewById(R.id.main_pb);
         main_fab = findViewById(R.id.main_fab);
 
         main_fab.setOnClickListener(new View.OnClickListener() {
@@ -98,9 +101,35 @@ public class MainActivity extends AppCompatActivity {
         });
 
         cat_list_rv = findViewById(R.id.cat_list_rv);
-        cat_list_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        cat_adapter = new CategoryAdapter(this ,cat_list);
-        cat_list_rv.setAdapter(cat_adapter);
+//        cat_list_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+//        cat_adapter = new CategoryAdapter(this ,cat_list);
+//        cat_list_rv.setAdapter(cat_adapter);
+
+        new FirebaseDatabaseHelper().readCategory(new FirebaseDatabaseHelper.CategoryDataStatus() {
+            @Override
+            public void DataIsLoaded(List<Category> categoies, List<String> keys) {
+                new CategoriesRecyclerViewConfig().setConfig(cat_list_rv, MainActivity.this, categoies, keys);
+                categories_loaded = true;
+                if(notes_loaded){
+                    main_pb.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void DataIsInserted() {
+
+            }
+
+            @Override
+            public void DataIsUpdated() {
+
+            }
+
+            @Override
+            public void DataIsDeleted() {
+
+            }
+        });
 
         note_list_rv = findViewById(R.id.notes_list_rv);
 
@@ -108,6 +137,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void DataIsLoaded(List<Note> notes, List<String> keys) {
                 new RecyclerViewConfig().setConfig(note_list_rv, MainActivity.this, notes, keys);
+                notes_loaded = true;
+                if(categories_loaded){
+                    main_pb.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -156,10 +189,10 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(MainActivity.this, SignUpActivity.class));
         finish();
+        return;
     }
 
     public void goToSearch(View view) {
         startActivity(new Intent(MainActivity.this, SearchActivity.class));
-        finish();
     }
 }

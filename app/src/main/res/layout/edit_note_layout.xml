@@ -69,10 +69,23 @@
                 />
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/note_category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notebook: "
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_margin="16dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/edit_note_category_spinner"
+                />
 
             <Spinner
                 android:id="@+id/edit_note_category_spinner"
@@ -85,9 +98,9 @@
 
                 android:layout_centerVertical="true"
                 android:layout_margin="16dp"
-                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
                 />
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/note_title"
@@ -107,7 +120,6 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:hint="Note title"
-                android:text="@string/common_google_play_services_notification_channel_name"
                 android:textColor="@color/colorBlack"
                 android:textSize="22sp"
                 android:visibility="visible" />
@@ -132,11 +144,18 @@
                 android:layout_marginBottom="16dp"
                 android:hint="Note description"
                 android:maxHeight="280dp"
-                android:minHeight="100dp"
                 android:textColor="@color/colorBlack"
                 android:textSize="16sp"
+                android:gravity="start"
                 android:visibility="visible" />
         </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/edit_note_pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"/>
+
     </LinearLayout>
 
 

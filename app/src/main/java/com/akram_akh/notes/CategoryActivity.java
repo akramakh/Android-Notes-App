@@ -15,16 +15,22 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
+import java.util.List;
 
 public class CategoryActivity extends AppCompatActivity {
 
     private BottomSheetBehavior m_bottom_sheet_behavior;
     ImageView color_chooser_btn;
     boolean show = false;
+
+    String key, user_id;
 
     EditText cat_title_ET;
 //    EditText cat_slug_ET;
@@ -34,9 +40,12 @@ public class CategoryActivity extends AppCompatActivity {
     FrameLayout color_chooser;
 
     DatabaseReference categories_database;
+    DatabaseReference single_category_database;
+    Category item;
 
     int color = R.drawable.notebook_1;
-    ImageView color_btn_1,color_btn_2,color_btn_3,color_btn_4,color_btn_5,color_btn_6,color_btn_7,color_btn_8,color_btn_9,color_btn_10,color_btn_11,color_btn_12;
+    ImageView color_btn_1,color_btn_2,color_btn_3,color_btn_4,color_btn_5,color_btn_6,
+            color_btn_7,color_btn_8,color_btn_9,color_btn_10,color_btn_11,color_btn_12;
 
 
     @SuppressLint("WrongViewCast")
@@ -45,6 +54,8 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
+
+
         categories_database = FirebaseDatabase.getInstance().getReference("categories");
         cat_title_ET = (EditText) findViewById(R.id.cat_title_ET);
 //        cat_slug_ET = (EditText) findViewById(R.id.cat_slug_ET);
@@ -52,6 +63,112 @@ public class CategoryActivity extends AppCompatActivity {
         create_category_btn = findViewById(R.id.create_cat_btn);
 
         color_chooser = (FrameLayout) findViewById(R.id.color_chooser);
+
+        key = getIntent().getStringExtra("key");
+        if(!key.equals("add_cat_id")){
+            cat_title_ET.setText(getIntent().getStringExtra("title"));
+//            Integer img = (Integer) getIntent().getIntExtra("image");
+//            add_notebook_image_holder.setImageResource(img);
+            user_id = getIntent().getStringExtra("user_id");
+
+            single_category_database = categories_database.child(user_id).child(key);
+
+            single_category_database.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    item = new Category();
+                    item.setId(dataSnapshot.child("id").getValue().toString());
+                    item.setTitle(dataSnapshot.child("title").getValue().toString());
+                    item.setSlug(dataSnapshot.child("slug").getValue().toString());
+                    item.setImage(Integer.valueOf(dataSnapshot.child("image").getValue().toString()));
+                    item.setCreated_at((Long) dataSnapshot.child("created_at").getValue());
+                    item.setUpdated_at((Long) dataSnapshot.child("updated_at").getValue());
+                    item.setUser_id(dataSnapshot.child("user_id").getValue().toString());
+                    add_notebook_image_holder.setImageResource(item.getImage());
+                    color = item.getImage();
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+
+            create_category_btn.setText("Update");
+
+            create_category_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String cat_title = cat_title_ET.getText().toString();
+                    String cat_slug = cat_title_ET.getText().toString().trim();
+                    int cat_image = color;
+                    long updated_at = new Date().getTime();
+                    item.setImage(cat_image);
+                    item.setSlug(cat_slug);
+                    item.setTitle(cat_title);
+                    item.setUpdated_at(updated_at);
+                    new FirebaseDatabaseHelper().updateCategory(key, item, new FirebaseDatabaseHelper.CategoryDataStatus() {
+                        @Override
+                        public void DataIsLoaded(List<Category> categoies, List<String> keys) {
+                        }
+
+                        @Override
+                        public void DataIsInserted() {
+
+                        }
+
+                        @Override
+                        public void DataIsUpdated() {
+                            Toast.makeText(CategoryActivity.this,"updated successfully", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void DataIsDeleted() {
+
+                        }
+                    });
+
+                }
+            });
+        }else{
+            create_category_btn.setText("Create");
+            create_category_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String user_id = "user_id";
+                    String cat_title = cat_title_ET.getText().toString();
+                    String cat_slug = cat_title_ET.getText().toString().trim();
+                    int cat_image = color;
+                    long created_at = new Date().getTime();
+                    long updated_at = new Date().getTime();
+                    String id = categories_database.push().getKey();
+                    Category cat = new Category(id,cat_title, cat_slug, cat_image, user_id, created_at, updated_at);
+                    new FirebaseDatabaseHelper().addCategory(cat, new FirebaseDatabaseHelper.CategoryDataStatus() {
+                        @Override
+                        public void DataIsLoaded(List<Category> categoies, List<String> keys) {
+
+                        }
+
+                        @Override
+                        public void DataIsInserted() {
+                            Toast.makeText(CategoryActivity.this,"Notebook Created successfully", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void DataIsUpdated() {
+
+                        }
+
+                        @Override
+                        public void DataIsDeleted() {
+
+                        }
+                    });
+//                    categories_database.child(user_id).child(id).setValue(cat);
+
+                }
+            });
+        }
 
         add_notebook_image_holder.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,21 +198,7 @@ public class CategoryActivity extends AppCompatActivity {
         });
 
 
-        create_category_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String user_id = "user_id";
-                String cat_title = cat_title_ET.getText().toString();
-                String cat_slug = cat_title_ET.getText().toString().trim();
-                int cat_image = color;
-                long created_at = new Date().getTime();
-                long updated_at = new Date().getTime();
-                String id = categories_database.push().getKey();
-                Category cat = new Category(id,cat_title, cat_slug, cat_image, user_id, created_at, updated_at);
-                categories_database.child(user_id).child(id).setValue(cat);
-                Toast.makeText(CategoryActivity.this,cat_title+" "+cat_slug, Toast.LENGTH_LONG).show();
-            }
-        });
+
 
 
         color_btn_1 = findViewById(R.id.add_notebook_color_1);
@@ -116,91 +219,72 @@ public class CategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeBackground(1);
-//                color = 1;
             }
         });
         color_btn_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeBackground(2);
-//                color = 2;
             }
         });
         color_btn_3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeBackground(3);
-//                color = 3;
             }
         });
         color_btn_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeBackground(4);
-//                color = 4;
             }
         });
         color_btn_5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeBackground(5);
-//                color = 5;
             }
         });
         color_btn_6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeBackground(6);
-//                color = 6;
             }
         });
         color_btn_7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeBackground(7);
-//                color = 7;
-            }
-        });
-        color_btn_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeBackground(1);
-//                color = 1;
             }
         });
         color_btn_8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeBackground(8);
-//                color = 8;
             }
         });
         color_btn_9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeBackground(9);
-//                color = 9;
             }
         });
         color_btn_10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeBackground(10);
-//                color = 10;
             }
         });
         color_btn_11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeBackground(11);
-//                color = 11;
             }
         });
         color_btn_12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeBackground(12);
-//                color = 12;
             }
         });
 

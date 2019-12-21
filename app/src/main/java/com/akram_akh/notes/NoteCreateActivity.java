@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class NoteCreateActivity extends AppCompatActivity {
     ImageView color_chooser_btn, close_btn;
     boolean show = false;
 
+    ProgressBar edit_note_pb;
     LinearLayout main_container;
     Button save_btn;
     TextView title_tv, description_tv;
@@ -97,6 +99,8 @@ public class NoteCreateActivity extends AppCompatActivity {
         categories_list = new ArrayList<>();
         strings_list = new ArrayList<>();
 
+        edit_note_pb = findViewById(R.id.edit_note_pb);
+
 
         categories_database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -109,6 +113,7 @@ public class NoteCreateActivity extends AppCompatActivity {
                     }
                 }
                 adapter.notifyDataSetChanged();
+                edit_note_pb.setVisibility(View.GONE);
             }
 
             @Override
@@ -116,18 +121,6 @@ public class NoteCreateActivity extends AppCompatActivity {
                 System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-
-//        categories_list.add(new Category("cat_id","cat name","cat-slug", "image","user_id", 132456789,132456789));
-//        strings_list.add("category 1");
-//
-//        categories_list.add(new Category("cat_id","cat name","cat-slug", "image","user_id", 132456789,132456789));
-//        strings_list.add("category 2");
-//
-//        categories_list.add(new Category("cat_id","cat name","cat-slug", "image","user_id", 132456789,132456789));
-//        strings_list.add("category 3");
-//
-//        categories_list.add(new Category("cat_id","cat name","cat-slug", "image","user_id", 132456789,132456789));
-//        strings_list.add("category 4");
 
 
         adapter = new ArrayAdapter<String>(this,
@@ -152,26 +145,7 @@ public class NoteCreateActivity extends AppCompatActivity {
             }
         });
 
-//
-//        title_tv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                title_tv.setVisibility(v.GONE);
-//                title_et.setVisibility(v.VISIBLE);
-//                title_et.setText(title_tv.getText());
-//                save_btn.setVisibility(v.VISIBLE);
-//            }
-//        });
-//
-//        description_tv.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                description_tv.setVisibility(v.GONE);
-//                description_et.setVisibility(v.VISIBLE);
-//                description_et.setText(description_tv.getText());
-//                save_btn.setVisibility(v.VISIBLE);
-//            }
-//        });
+
 
 
         save_btn.setOnClickListener(new View.OnClickListener() {
@@ -204,8 +178,6 @@ public class NoteCreateActivity extends AppCompatActivity {
 
                     }
                 });
-//                notes_database.child(category_id).child(id).setValue(note);
-//                Toast.makeText(NoteCreateActivity.this,title+" "+description, Toast.LENGTH_LONG).show();
             }
         });
 

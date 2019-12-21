@@ -118,6 +118,12 @@
                 android:textColor="@color/colorPrimary" />
         </RelativeLayout>
 
+        <ProgressBar
+            android:id="@+id/main_pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notes_list_rv"
             android:layout_width="match_parent"
@@ -153,7 +159,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:onClick="logout"/>
-
 
 
     </LinearLayout>

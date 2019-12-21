@@ -17,7 +17,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void goToMain(View view) {
-        startActivity(new Intent(SearchActivity.this, MainActivity.class));
         finish();
+        return;
     }
 }
