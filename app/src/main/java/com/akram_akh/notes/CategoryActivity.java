@@ -13,8 +13,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.akram_akh.notes.Auth.SignInActivity;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +33,8 @@ public class CategoryActivity extends AppCompatActivity {
     boolean show = false;
 
     String key, user_id;
+
+    FirebaseAuth f_auth;
 
     EditText cat_title_ET;
 //    EditText cat_slug_ET;
@@ -54,7 +58,7 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
-
+        f_auth = FirebaseAuth.getInstance();
 
         categories_database = FirebaseDatabase.getInstance().getReference("categories");
         cat_title_ET = (EditText) findViewById(R.id.cat_title_ET);
@@ -135,7 +139,7 @@ public class CategoryActivity extends AppCompatActivity {
             create_category_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String user_id = "user_id";
+                    String user_id = f_auth.getUid();
                     String cat_title = cat_title_ET.getText().toString();
                     String cat_slug = cat_title_ET.getText().toString().trim();
                     int cat_image = color;

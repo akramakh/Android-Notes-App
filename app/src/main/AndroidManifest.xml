@@ -16,17 +16,19 @@
         <activity android:name=".NotesListActivity" />
         <activity android:name=".NoteCreateActivity" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".OnboardingScreenActivity" />
-        <activity android:name=".Auth.ForgetPasswordActivity" />
-        <activity android:name=".Auth.ConfirmingEmailActivity" />
-        <activity android:name=".Auth.SignInActivity" />
-        <activity android:name=".Auth.SignUpActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".OnboardingScreenActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Auth.ForgetPasswordActivity" />
+        <activity android:name=".Auth.ConfirmingEmailActivity" />
+        <activity android:name=".Auth.SignInActivity" />
+        <activity android:name=".Auth.SignUpActivity" />
+        <activity android:name=".MainActivity">
+
         </activity>
         <activity android:name=".CategoryActivity" />
     </application>

@@ -20,6 +20,7 @@ public class FirebaseDatabaseHelper {
     private DatabaseReference mNotesDatabasse;
     private DatabaseReference mCategoriesDatabasse;
     private List<Note> mNotes = new ArrayList<>();
+    private List<Note> mSearchedNotes = new ArrayList<>();
     private List<Category> mCategories = new ArrayList<>();
 
     public interface DataStatus{
@@ -96,6 +97,31 @@ public class FirebaseDatabaseHelper {
                         dataStatus.DataIsDeleted();
                     }
                 });
+    }
+
+    public void searchForNote(final String query, final DataStatus dataStatus){
+        this.mNotesDatabasse.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mSearchedNotes.clear();
+                List<String> mKeys = new ArrayList<>();
+                for (DataSnapshot categories: dataSnapshot.getChildren()){
+                    for (DataSnapshot noteNode: categories.getChildren()){
+                        Note note = noteNode.getValue(Note.class);
+                        if(note.getTitle().toLowerCase().contains(query.toLowerCase().trim())){
+                            mKeys.add(noteNode.getKey());
+                            mSearchedNotes.add(note);
+                        }
+                    }
+                }
+                dataStatus.DataIsLoaded(mSearchedNotes, mKeys);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 

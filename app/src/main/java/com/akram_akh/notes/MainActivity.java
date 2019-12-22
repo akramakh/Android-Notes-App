@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,7 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     FloatingActionButton main_fab;
     ProgressBar main_pb;
-    boolean notes_loaded = false, categories_loaded = false;
+    LinearLayout top_menu;
+    TextView top_edit_btn;
+    boolean show_menu = false, notes_loaded = false, categories_loaded = false;
 
     FirebaseAuth f_auth;
 
@@ -89,6 +92,23 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, SignInActivity.class));
             finish();
         }
+
+        top_edit_btn = findViewById(R.id.edit_main_btn);
+        top_menu = findViewById(R.id.top_menu);
+
+        top_edit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(show_menu){
+                    show_menu = false;
+                    top_menu.setVisibility(View.GONE);
+                }else{
+                    show_menu = true;
+                    top_menu.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         main_pb = findViewById(R.id.main_pb);
         main_fab = findViewById(R.id.main_fab);
 

@@ -62,7 +62,12 @@
             android:alpha="24"
             android:background="@drawable/search_bar_bg" />
 
-
+        <ProgressBar
+            android:id="@+id/search_pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:layout_margin="48dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notes_list_rv"

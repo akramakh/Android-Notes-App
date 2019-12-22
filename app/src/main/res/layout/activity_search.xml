@@ -58,7 +58,16 @@
         android:alpha="24"
         android:background="@drawable/search_bar_bg" />
 
+    <ProgressBar
+        android:id="@+id/search_pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_margin="48dp"
+        android:visibility="invisible"/>
+
     <LinearLayout
+        android:id="@+id/blank_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -88,15 +97,16 @@
     </LinearLayout>
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_rv"
         android:layout_width="match_parent"
-        android:layout_height="166dp"
+        android:layout_height="match_parent"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+
 
 
 </LinearLayout>

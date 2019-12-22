@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.SearchView;
 
 import com.akram_akh.notes.Adapter.NoteAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,6 +27,10 @@ public class NotesListActivity extends AppCompatActivity {
     FloatingActionButton main_fab;
 
     RecyclerView note_list_rv;
+    SearchView search_bar;
+    ProgressBar search_pb;
+
+    int length = 0;
 //    NoteAdapter note_adapter;
 //    List<Note> notes_list  = new ArrayList<>();
 //
@@ -36,6 +43,8 @@ public class NotesListActivity extends AppCompatActivity {
 
 
         main_fab = findViewById(R.id.add_note_fab);
+        search_bar = findViewById(R.id.search_bar);
+        search_pb = findViewById(R.id.search_pb);
 
         main_fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,32 +54,35 @@ public class NotesListActivity extends AppCompatActivity {
             }
         });
 
-//        notes_database = FirebaseDatabase.getInstance().getReference("notes");
-//        notes_database.addValueEventListener(new ValueEventListener() {
-//
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                notes_list.clear();
-//                for (DataSnapshot category: dataSnapshot.getChildren()) {
-//                    for (DataSnapshot note : category.getChildren()) {
-//                        Note item = note.getValue(Note.class);
-//                        notes_list.add(item);
-//                    }
-//                }
-//                note_adapter.notifyDataSetChanged();
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                System.out.println("The read failed: " + databaseError.getCode());
-//            }
-//        });
-
         note_list_rv = findViewById(R.id.notes_list_rv);
+        loadNotes();
+
+        search_bar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                if (newText.trim().isEmpty()){
+                    search_pb.setVisibility(View.GONE);
+                    loadNotes();
+                    return false;
+                }else{
+                    return doSearch(newText);
+                }
+            }
+        });
+    }
+
+    private void loadNotes(){
         new FirebaseDatabaseHelper().readNotes(new FirebaseDatabaseHelper.DataStatus() {
             @Override
             public void DataIsLoaded(List<Note> notes, List<String> keys) {
+                search_pb.setVisibility(View.GONE);
                 new RecyclerViewConfig().setConfig(note_list_rv, NotesListActivity.this, notes, keys);
             }
 
@@ -89,5 +101,33 @@ public class NotesListActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private boolean doSearch(String newText){
+        search_pb.setVisibility(View.VISIBLE);
+        new FirebaseDatabaseHelper().searchForNote(newText, new FirebaseDatabaseHelper.DataStatus() {
+            @Override
+            public void DataIsLoaded(List<Note> notes, List<String> keys) {
+                search_pb.setVisibility(View.GONE);
+                length = keys.size();
+                new RecyclerViewConfig().setConfig(note_list_rv, NotesListActivity.this, notes, keys);
+            }
+
+            @Override
+            public void DataIsInserted() {
+
+            }
+
+            @Override
+            public void DataIsUpdated() {
+
+            }
+
+            @Override
+            public void DataIsDeleted() {
+
+            }
+        });
+        return length > 0;
     }
 }

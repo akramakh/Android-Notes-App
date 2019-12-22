@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.akram_akh.notes.Auth.SignInActivity;
 import com.akram_akh.notes.Auth.SignUpActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class OnboardingScreenActivity extends AppCompatActivity {
 
@@ -27,10 +28,19 @@ public class OnboardingScreenActivity extends AppCompatActivity {
     SliderAdapter slider_adapter;
     int current_page = 0;
 
+    FirebaseAuth f_auth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding_screen);
+
+        f_auth = FirebaseAuth.getInstance();
+
+        if(f_auth.getCurrentUser() != null){
+            startActivity(new Intent(OnboardingScreenActivity.this, MainActivity.class));
+            finish();
+        }
 
         view_pager = (ViewPager) findViewById(R.id.slide_view_pager);
 

@@ -52,6 +52,24 @@
                 android:textColor="@color/colorPrimary"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="false"/>
+            <LinearLayout
+                android:id="@+id/top_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/edit_main_btn"
+                android:visibility="invisible">
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="logout"
+                    android:background="@color/cardview_light_background"
+                    android:onClick="logout"
+                    />
+
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
