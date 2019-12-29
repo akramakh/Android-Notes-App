@@ -136,7 +136,6 @@ public class NoteCreateActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Category cat = categories_list.get(position);
                 category_id = cat.getId();
-                Toast.makeText(NoteCreateActivity.this, id+" selected "+position, Toast.LENGTH_LONG).show();
             }
 
             @Override

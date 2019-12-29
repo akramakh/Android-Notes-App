@@ -18,12 +18,11 @@
             android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp">
 
-            <Button
-                android:id="@+id/top_left_color_btn"
+            <ImageView
+                android:id="@+id/notes_back_btn"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:background="@color/colorPrimary"
-                android:text=""
+                android:src="@drawable/back_btn"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_centerVertical="false"/>

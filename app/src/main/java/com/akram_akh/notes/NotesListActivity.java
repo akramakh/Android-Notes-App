@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
@@ -29,6 +30,7 @@ public class NotesListActivity extends AppCompatActivity {
     RecyclerView note_list_rv;
     SearchView search_bar;
     ProgressBar search_pb;
+    ImageView back_btn;
 
     int length = 0;
 //    NoteAdapter note_adapter;
@@ -40,6 +42,15 @@ public class NotesListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_list);
+
+        back_btn = findViewById(R.id.category_back_btn);
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                return ;
+            }
+        });
 
 
         main_fab = findViewById(R.id.add_note_fab);

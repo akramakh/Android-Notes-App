@@ -99,16 +99,35 @@ public class NoteDetailActivity extends AppCompatActivity {
         });
 
 
-//        title_tv = findViewById(R.id.note_detail_title_tv);
+        title_tv = findViewById(R.id.note_detail_title_tv);
         title_et = findViewById(R.id.note_detail_title_et);
-//        description_tv = findViewById(R.id.note_detail_description_tv);
+        title_et.setVisibility(View.INVISIBLE);
+        description_tv = findViewById(R.id.note_detail_description_tv);
         description_et = findViewById(R.id.note_detail_description_et);
+        description_et.setVisibility(View.INVISIBLE);
         save_btn = findViewById(R.id.note_detail_save_btn);
         cat_list_spinner = findViewById(R.id.note_detail_category_spinner);
 
         note_detail_pb = findViewById(R.id.note_detail_pb);
 
         single_note_database = notes_database.child(category_id).child(key);
+
+        title_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title_et.setText(title_tv.getText());
+                title_tv.setVisibility(View.GONE);
+                title_et.setVisibility(View.VISIBLE);
+            }
+        });
+        description_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                description_et.setText(description_tv.getText());
+                description_tv.setVisibility(View.GONE);
+                description_et.setVisibility(View.VISIBLE);
+            }
+        });
 
         single_note_database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -122,8 +141,8 @@ public class NoteDetailActivity extends AppCompatActivity {
                 item.setUpdated_at((Long) dataSnapshot.child("updated_at").getValue());
                 item.setCategory_id(dataSnapshot.child("category_id").getValue().toString());
 
-                title_et.setText(item.getTitle());
-                description_et.setText(item.getDescription());
+                title_tv.setText(item.getTitle());
+                description_tv.setText(item.getDescription());
                 changeBackground(item.getColor());
                 color = item.getColor();
 

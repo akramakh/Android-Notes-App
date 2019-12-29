@@ -95,8 +95,8 @@ public class CategoriesRecyclerViewConfig {
         private List<Category> mCategoriesList;
         private List<String> mKeys;
 
-        public CategoriesAdapter(List<Category> mCAtegoriesList, List<String> mKeys) {
-            this.mCategoriesList = mCAtegoriesList;
+        public CategoriesAdapter(List<Category> mCategoriesList, List<String> mKeys) {
+            this.mCategoriesList = mCategoriesList;
             this.mKeys = mKeys;
         }
 
