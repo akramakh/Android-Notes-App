@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,14 +21,20 @@ public class CategoriesRecyclerViewConfig {
     private Context mContext;
     private CategoriesAdapter mCategoryAdapter;
 
-    public void setConfig(RecyclerView recyclerView, Context context, List<Category> categories, List<String> keys){
+
+    public void setConfig(RecyclerView recyclerView, boolean isLinearLayoutManager, Context context, List<Category> categories, List<String> keys) {
         mContext = context;
         mCategoryAdapter = new CategoriesAdapter(categories, keys);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        RecyclerView.LayoutManager layoutManager;
+        if (isLinearLayoutManager)
+            layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        else
+            layoutManager = new GridLayoutManager(context, 3, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mCategoryAdapter);
     }
 
-    public class CategoryItemView extends RecyclerView.ViewHolder{
+    public class CategoryItemView extends RecyclerView.ViewHolder {
 
         TextView cat_name;
         ImageView cat_img;
@@ -58,7 +65,7 @@ public class CategoriesRecyclerViewConfig {
                     intent.putExtra("key", key);
                     intent.putExtra("user_id", user_id);
                     intent.putExtra("title", cat_name.getText().toString());
-                    Integer resource = (Integer)cat_img.getTag();
+                    Integer resource = (Integer) cat_img.getTag();
                     intent.putExtra("image", resource);
 
                     mContext.startActivity(intent);
@@ -66,7 +73,7 @@ public class CategoriesRecyclerViewConfig {
             });
         }
 
-        public  void bind(Category cat, String key){
+        public void bind(Category cat, String key) {
             cat_name.setText(getShortExcerpt(cat.getTitle()));
             cat_img.setImageResource(cat.getImage());
             cat_img.setTag(cat.getImage());
@@ -75,16 +82,16 @@ public class CategoriesRecyclerViewConfig {
             this.user_id = cat.getUser_id();
         }
 
-        private String getShortExcerpt(String long_text){
+        private String getShortExcerpt(String long_text) {
             String short_text = long_text;
-            if(long_text.length() > 15){
+            if (long_text.length() > 15) {
                 short_text = long_text.substring(0, 11) + "...";
             }
             return short_text;
         }
     }
 
-    class CategoriesAdapter extends RecyclerView.Adapter<CategoryItemView>{
+    class CategoriesAdapter extends RecyclerView.Adapter<CategoryItemView> {
         private List<Category> mCategoriesList;
         private List<String> mKeys;
 

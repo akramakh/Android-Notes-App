@@ -126,15 +126,17 @@ public class FirebaseDatabaseHelper {
 
 
 
-    public void readCategory(final CategoryDataStatus dataStatus){
+    public void readCategory(final boolean isWithAddView,final CategoryDataStatus dataStatus){
         this.mCategoriesDatabasse.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mCategories.clear();
                 List<String> mKeys = new ArrayList<>();
-                Category add_cat_btn = new Category("add_cat_id", "Create Notebook", "create-notebook", R.drawable.add_notebook_img,"user_id", new Date().getTime(),new Date().getTime());
-                mCategories.add(add_cat_btn);
-                mKeys.add(add_cat_btn.getId());
+                if(isWithAddView) {
+                    Category add_cat_btn = new Category("add_cat_id", "Create Notebook", "create-notebook", R.drawable.add_notebook_img, "user_id", new Date().getTime(), new Date().getTime());
+                    mCategories.add(add_cat_btn);
+                    mKeys.add(add_cat_btn.getId());
+                }
                 for (DataSnapshot user: dataSnapshot.getChildren()){
                     for (DataSnapshot categoryNode: user.getChildren()){
                         mKeys.add(categoryNode.getKey());

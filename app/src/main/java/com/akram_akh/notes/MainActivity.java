@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView note_list_rv;
 
-    List<Category> cat_list  = new ArrayList<>();
+    List<Category> cat_list = new ArrayList<>();
 
     DatabaseReference categories_database;
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        Utils.setDarkIconsStatusBar(this, R.color.colorWhite);
         categories_database = FirebaseDatabase.getInstance().getReference("categories");
 //        categories_database.addValueEventListener(new ValueEventListener() {
 //
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         f_auth = FirebaseAuth.getInstance();
 
 
-        if(f_auth.getCurrentUser() == null){
+        if (f_auth.getCurrentUser() == null) {
             startActivity(new Intent(MainActivity.this, SignInActivity.class));
             finish();
         }
@@ -99,10 +99,10 @@ public class MainActivity extends AppCompatActivity {
         top_edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(show_menu){
+                if (show_menu) {
                     show_menu = false;
                     top_menu.setVisibility(View.GONE);
-                }else{
+                } else {
                     show_menu = true;
                     top_menu.setVisibility(View.VISIBLE);
                 }
@@ -125,12 +125,12 @@ public class MainActivity extends AppCompatActivity {
 //        cat_adapter = new CategoryAdapter(this ,cat_list);
 //        cat_list_rv.setAdapter(cat_adapter);
 
-        new FirebaseDatabaseHelper().readCategory(new FirebaseDatabaseHelper.CategoryDataStatus() {
+        new FirebaseDatabaseHelper().readCategory(true,new FirebaseDatabaseHelper.CategoryDataStatus() {
             @Override
             public void DataIsLoaded(List<Category> categoies, List<String> keys) {
-                new CategoriesRecyclerViewConfig().setConfig(cat_list_rv, MainActivity.this, categoies, keys);
+                new CategoriesRecyclerViewConfig().setConfig(cat_list_rv,true, MainActivity.this, categoies, keys);
                 categories_loaded = true;
-                if(notes_loaded){
+                if (notes_loaded) {
                     main_pb.setVisibility(View.GONE);
                 }
             }
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             public void DataIsLoaded(List<Note> notes, List<String> keys) {
                 new RecyclerViewConfig().setConfig(note_list_rv, MainActivity.this, notes, keys);
                 notes_loaded = true;
-                if(categories_loaded){
+                if (categories_loaded) {
                     main_pb.setVisibility(View.GONE);
                 }
             }
@@ -199,13 +199,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void goToAddCategory(View v){
+    public void goToAddCategory(View v) {
 
-            Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
-            startActivity(intent);
+        Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
+        startActivity(intent);
     }
 
-    public void logout(View view){
+    public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(MainActivity.this, SignUpActivity.class));
         finish();
