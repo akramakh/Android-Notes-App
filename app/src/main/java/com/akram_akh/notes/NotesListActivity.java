@@ -43,7 +43,7 @@ public class NotesListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_list);
 
-        back_btn = findViewById(R.id.category_back_btn);
+        back_btn = findViewById(R.id.notes_back_btn);
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
